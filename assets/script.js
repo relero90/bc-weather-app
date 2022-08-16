@@ -8,8 +8,7 @@ var todaysUV = $("#cur-UV");
 function getWeatherData() {
   // Insert the API url to get weather information
   // Returning unauthorized - OpenWeather email says it needs a couple hours to activate my API keys
-  var requestUrl =
-    "https://api.openweathermap.org/data/3.0/onecall?appid=5bca7b13e1eea87d39ca30950dc2466a";
+  var requestUrl = "https://api.openweathermap.org/data/3.0/onecall?appid={}";
 
   fetch(requestUrl).then(function (response) {
     console.log(response);
