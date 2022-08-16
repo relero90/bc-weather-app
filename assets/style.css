@@ -1,0 +1,99 @@
+:root {
+  --dark: #100f0f;
+  --light: #f1f1f1;
+  --light-alt: #e2dcc8;
+  --accent: #0f3d3e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Raleway", sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+  background-image: linear-gradient(var(--accent) 0%, var(--dark) 100%);
+  color: var(--light);
+}
+
+h2 {
+  padding: 10px;
+  font-size: 2vw;
+  text-align: left;
+}
+
+h3 {
+  padding: 4px;
+  font-size: 1.8vw;
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+}
+
+aside {
+  float: left;
+  min-width: 20%;
+  min-height: 100vh;
+  padding: 8px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  border-bottom: solid 2px var(--accent);
+}
+
+input {
+  font-size: 1.3vw;
+  width: 80%;
+  padding: 6px;
+  margin: 6px;
+  border-radius: 4px;
+}
+
+button {
+  background-color: var(--light-alt);
+  color: var(--dark);
+  font-size: 1.3vw;
+  width: 90%;
+  padding: 6px;
+  margin: 6px;
+  border-radius: 4px;
+}
+
+form button {
+  background-color: var(--accent);
+  color: var(--light);
+}
+
+#weather-display {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 6px;
+  margin: 6px;
+}
+
+#current-weather {
+  border: solid 2px var(--accent);
+  padding: 6px;
+  margin: 6px;
+  width: 100%;
+}
+
+#five-day-forecast {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.forecast-cards {
+  border: solid 2px var(--accent);
+  padding: 6px;
+  margin: 6px;
+  width: 18%;
+}
