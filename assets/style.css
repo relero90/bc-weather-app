@@ -56,8 +56,8 @@ form {
 }
 
 input {
-  background-color: var(--headings);
-  color: var(--accent);
+  background-color: var(--accent);
+  color: var(--dark);
   font-size: 1.3vw;
   width: 80%;
   padding: 6px;
@@ -67,7 +67,7 @@ input {
 
 button {
   background-color: var(--headings);
-  color: var(--light);
+  color: var(--dark);
   font-weight: bold;
   font-size: 1.3vw;
   width: 90%;
@@ -82,8 +82,8 @@ form button {
 }
 
 form button:hover {
-  background-color: var(--headings);
-  color: var(--dark);
+  background-color: var(--dark);
+  color: var(--accent);
 }
 
 #weather-display {
