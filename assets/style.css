@@ -3,7 +3,7 @@
   --medium: #2c394b;
   --light: #334756;
   --headings: #7c3e66;
-  --accent: #f2ebe9;
+  --accent: #758a9b;
 }
 
 * {
@@ -21,18 +21,20 @@ header {
   justify-content: center;
   align-items: center;
   padding: 14px;
-  background-image: linear-gradient(var(--light) 0%, var(--dark) 100%);
+  background-image: linear-gradient(var(--medium) 0%, var(--dark) 100%);
   color: var(--headings);
 }
 
 h2 {
   padding: 10px;
+  color: var(--accent);
   font-size: 2vw;
   text-align: left;
 }
 
 h3 {
   padding: 4px;
+  color: var(--accent);
   font-size: 1.8vw;
   width: 100%;
   text-align: left;
@@ -60,7 +62,7 @@ input {
   width: 80%;
   padding: 6px;
   margin: 6px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 button {
@@ -71,7 +73,7 @@ button {
   width: 90%;
   padding: 6px;
   margin: 6px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 form button {
@@ -93,6 +95,7 @@ form button:hover {
 
 #current-weather {
   border: solid 2px var(--dark);
+  color: var(--accent);
   padding: 6px;
   margin: 6px;
   width: 100%;
@@ -106,6 +109,7 @@ form button:hover {
 
 .forecast-cards {
   border: solid 2px var(--dark);
+  color: var(--accent);
   padding: 6px;
   margin: 6px;
   width: 18%;
