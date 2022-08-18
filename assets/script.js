@@ -1,6 +1,5 @@
 var searchBtn = $("#search-btn");
 var savedCitiesDiv = $("#saved-cities");
-var savedCities = [];
 var currentCityHeader = $("#cityname-date");
 var currentDate = new Date().toLocaleDateString("en-us", {
   weekday: "long",
@@ -16,6 +15,7 @@ var userCityInput = $("#city-input");
 // cities with spaces break the API call
 var selectedCity = "";
 var APIKey = "ad917aaaa96b4e27d19270a99cf00379";
+var temp = "";
 
 // on page load, generate buttons for saved cities from stored searches in local storage
 function renderSavedCities() {
@@ -25,9 +25,10 @@ function renderSavedCities() {
     for (var i = 0; i < pulledCities.length; i++) {
       var savedCity = document.createElement("button");
       savedCity.textContent = pulledCities[i];
-      savedCity.classList.add(pulledCities[i]);
+      // savedCity.classList.add(pulledCities[i]);
       savedCity.setAttribute("data-index", i);
       savedCity.setAttribute("id", "btn-2");
+      savedCity.setAttribute("data-city", pulledCities[i]);
       savedCitiesDiv.append(savedCity);
     }
   }
@@ -36,7 +37,12 @@ renderSavedCities();
 
 // when user enters a new city and clicks "search", saves to local storage and appends a button for that city
 function saveNewCity() {
+  var savedCities = JSON.parse(localStorage.getItem("savedCitiesString")) || [];
+
   selectedCity = userCityInput.val();
+  temp = selectedCity.replace(/\s/g, "+");
+  // console.log(selectedCity);
+
   console.log(selectedCity);
   savedCities.push(selectedCity);
   console.log(savedCities);
@@ -46,7 +52,7 @@ function saveNewCity() {
   // create button element, add text, class, and append below search
   var savedCity = document.createElement("button");
   savedCity.textContent = selectedCity;
-  savedCity.classList.add(selectedCity);
+  // savedCity.classList.add(selectedCity);
   savedCity.setAttribute("id", "btn-2");
   savedCitiesDiv.append(savedCity);
   // userCityInput.textContent = "";
@@ -55,7 +61,7 @@ function saveNewCity() {
 function getWeatherData() {
   var requestUrl =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
-    selectedCity +
+    temp +
     "&units=imperial&appid=" +
     APIKey;
 
@@ -88,7 +94,8 @@ for (var i = 0; i < savedCityBtns.length; i++) {
   savedCityBtns[i].addEventListener("click", function (event) {
     event.preventDefault();
     var clickedBtn = event.target;
-    selectedCity = clickedBtn.classList.value;
+    // selectedCity = clickedBtn.classList.value;
+    selectedCity = $(this).attr("data-city");
     getWeatherData();
   });
 }

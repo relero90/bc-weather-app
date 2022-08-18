@@ -65,6 +65,11 @@ input {
   border-radius: 6px;
 }
 
+#saved-cities {
+  display: flex;
+  flex-direction: column;
+}
+
 button {
   background-color: var(--headings);
   color: var(--dark);
