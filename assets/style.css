@@ -93,6 +93,20 @@ form button:hover {
   margin: 6px;
 }
 
+#cityname-date {
+  color: var(--dark);
+}
+
+#current-weather p {
+  font-size: 1.5vw;
+  margin-top: 5px;
+}
+
+.data {
+  color: var(--dark);
+  font-weight: bold;
+}
+
 #current-weather {
   border: solid 2px var(--dark);
   color: var(--accent);

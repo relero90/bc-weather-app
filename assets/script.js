@@ -2,6 +2,12 @@ var searchBtn = $("#search-btn");
 var savedCitiesDiv = $("#saved-cities");
 var savedCities = [];
 var currentCityHeader = $("#cityname-date");
+var currentDate = new Date().toLocaleDateString("en-us", {
+  weekday: "long",
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
 var todaysTemp = $("#cur-temp");
 var todaysWind = $("#cur-wind");
 var todaysHumidity = $("#cur-humidity");
@@ -21,6 +27,7 @@ function renderSavedCities() {
       savedCity.textContent = pulledCities[i];
       savedCity.classList.add(pulledCities[i]);
       savedCity.setAttribute("data-index", i);
+      savedCity.setAttribute("id", "btn-2");
       savedCitiesDiv.append(savedCity);
     }
   }
@@ -40,16 +47,16 @@ function saveNewCity() {
   var savedCity = document.createElement("button");
   savedCity.textContent = selectedCity;
   savedCity.classList.add(selectedCity);
+  savedCity.setAttribute("id", "btn-2");
   savedCitiesDiv.append(savedCity);
   // userCityInput.textContent = "";
 }
 
 function getWeatherData() {
-  // API url to get current weather information
   var requestUrl =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     selectedCity +
-    "&appid=" +
+    "&units=imperial&appid=" +
     APIKey;
 
   fetch(requestUrl)
@@ -58,13 +65,30 @@ function getWeatherData() {
     })
     .then(function (data) {
       console.log(data);
+      currentCityHeader.text(data.name + " - " + currentDate);
+      todaysTemp.text(data.main.temp + " °F");
+      todaysWind.text(data.wind.speed + " MPH");
+      todaysHumidity.text(data.main.humidity + " %");
+      // need UV index
     });
 }
-// getWeatherData();
 
 searchBtn.on("click", function (event) {
   event.preventDefault();
   if (userCityInput.val() !== null) {
     saveNewCity();
   }
+  getWeatherData();
 });
+
+// When user clicks on any saved city button, get weather data for that city
+var savedCityBtns = document.querySelectorAll("#btn-2");
+console.log(savedCityBtns);
+for (var i = 0; i < savedCityBtns.length; i++) {
+  savedCityBtns[i].addEventListener("click", function (event) {
+    event.preventDefault();
+    var clickedBtn = event.target;
+    selectedCity = clickedBtn.classList.value;
+    getWeatherData();
+  });
+}
