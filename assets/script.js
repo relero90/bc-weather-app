@@ -61,7 +61,7 @@ function saveNewCity() {
   // userCityInput.textContent = "";
 }
 
-// pulls current weather data for selected city and then calls for getUVIndex() and get5DayForecast()
+// pulls current weather and lat/lon data for selected city and then calls for getUVIndex() and get5DayForecast()
 function getWeatherData() {
   cityConcat = selectedCity.replace(/\s/g, "+");
   var currentUrl =
@@ -101,9 +101,9 @@ function getWeatherData() {
     });
 }
 
-// broken function - ajax call now returning 403 Forbidden (worked before)
+// Needed different API for UV index b/c OpenWeather will not provide with a free account
+// OpenUV API limits pull requests to 50/day - when limit is reached, call returns 403 Forbidden and UV index on app will display color-coded "undefined"
 function getUVIndex() {
-  // API limits pull requests to 50/day - when limit is reached, UV index will display "undefined"
   $.ajax({
     type: "GET",
     dataType: "json",
@@ -144,6 +144,7 @@ function getUVIndex() {
   });
 }
 
+// Pull relevant data from API fetch and populate forecast cards
 function get5DayForecast() {
   var forecastURL =
     "https://api.openweathermap.org/data/2.5/forecast?lat=" +
@@ -160,52 +161,43 @@ function get5DayForecast() {
     .then(function (data) {
       console.log(data);
       forecastDiv.children().remove();
-      // capture daily forecast data
+      // capture daily forecast data for index point i
       function pullDays(i) {
+        // pulls relevant data from API call
         var cardDate = data.list[i].dt_txt.slice(5, 10);
         var iconCode = data.list[i].weather[0].icon;
         var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
-        var description = data.list[i].weather[0].main;
         var temp = data.list[i].main.temp;
         var feelsLike = data.list[i].main.feels_like;
         var humid = data.list[i].main.humidity;
         var wind = data.list[i].wind.speed;
-
+        // Creates forecast card and appends to DOM
         var forecastCard = document.createElement("div");
         forecastCard.classList.add("forecast-cards");
-
         var forecastDate = document.createElement("h3");
         forecastDate.textContent = cardDate;
-
         var headerDiv = document.createElement("div");
         headerDiv.classList.add("flexDiv");
-        // var forecastDescription = document.createElement("h4");
-        // forecastDescription.textContent = description;
         var forecastIcon = document.createElement("img");
         forecastIcon.src = iconUrl;
-
-        // headerDiv.append(forecastDescription);
         headerDiv.append(forecastIcon);
-
         forecastCard.append(forecastDate);
         forecastCard.append(headerDiv);
-
         var forecastTemp = document.createElement("p");
         forecastTemp.textContent = "Temp: " + temp + " °F";
         var forecastFL = document.createElement("p");
         forecastFL.textContent = "Feels Like: " + feelsLike + " °F";
         forecastCard.append(forecastTemp);
         forecastCard.append(forecastFL);
-
         var forecastHum = document.createElement("p");
         forecastHum.textContent = "Humidity: " + humid + " %";
         var forecastWind = document.createElement("p");
         forecastWind.textContent = "Wind: " + wind + " MPH";
         forecastCard.append(forecastHum);
         forecastCard.append(forecastWind);
-
         forecastDiv.append(forecastCard);
       }
+      // data index points for each of 5 days
       pullDays(8);
       pullDays(16);
       pullDays(24);
