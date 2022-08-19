@@ -128,8 +128,13 @@ form button:hover {
 
 .forecast-cards {
   border: solid 2px var(--dark);
-  color: var(--accent);
+  background-color: var(--accent);
+  color: var(--dark);
   padding: 6px;
   margin: 6px;
   width: 18%;
+}
+
+.forecast-cards h3 {
+  color: var(--headings);
 }

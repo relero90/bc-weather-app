@@ -12,9 +12,8 @@ var todaysWind = $("#cur-wind");
 var todaysHumidity = $("#cur-humidity");
 var todaysUV = $("#cur-UV");
 var coordinates = {};
+var forecastDiv = $("#five-day-forecast");
 var userCityInput = $("#city-input");
-var latitude = "";
-var longitude = "";
 var selectedCity = "";
 var APIKey = "ad917aaaa96b4e27d19270a99cf00379";
 var cityConcat = "";
@@ -46,7 +45,6 @@ function saveNewCity() {
 
   console.log(selectedCity);
   savedCities.push(selectedCity);
-  console.log(savedCities);
 
   var storedStringInput = JSON.stringify(savedCities);
   localStorage.setItem("savedCitiesString", storedStringInput);
@@ -66,7 +64,6 @@ function getWeatherData() {
     cityConcat +
     "&units=imperial&appid=" +
     APIKey;
-  console.log(currentUrl);
 
   fetch(currentUrl)
     .then(function (response) {
@@ -86,21 +83,18 @@ function getWeatherData() {
         lat: latitude.toString(),
         lon: longitude.toString(),
       };
-      console.log(coordinates);
       get5DayForecast(coordinates);
     });
 }
 
 function get5DayForecast() {
-  console.log(coordinates);
   var forecastURL =
-    "api.openweathermap.org/data/2.5/forecast?lat=" +
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
     coordinates.lat +
     "&lon=" +
     coordinates.lon +
     "&units=imperial&appid=" +
     APIKey;
-  console.log(forecastURL);
 
   fetch(forecastURL)
     .then(function (response) {
@@ -108,6 +102,44 @@ function get5DayForecast() {
     })
     .then(function (data) {
       console.log(data);
+      // capture daily forecast data
+      for (var i = 0; i < 5; i++) {
+        var cardDate = "Broken Fix Me";
+        var icon = data.list[i].weather[0].icon;
+        var hiTemp = data.list[i].main.temp_max;
+        var loTemp = data.list[i].main.temp_min;
+        var humid = data.list[i].main.humidity;
+        var wind = data.list[i].wind.speed;
+        console.log(cardDate);
+
+        var forecastCard = document.createElement("div");
+        forecastCard.classList.add("forecast-cards");
+
+        var forecastDate = document.createElement("h3");
+        forecastDate.textContent = cardDate;
+
+        var forecastIcon = document.createElement("i");
+        forecastIcon.textContent = icon;
+        forecastDate.append(forecastIcon);
+        forecastCard.append(forecastDate);
+
+        var forecastHi = document.createElement("p");
+        forecastHi.textContent = "High of: " + hiTemp + " °F";
+        var forecastLo = document.createElement("p");
+        forecastLo.textContent = "Low of: " + loTemp + " °F";
+        forecastCard.append(forecastHi);
+        forecastCard.append(forecastLo);
+
+        var forecastHum = document.createElement("p");
+        forecastHum.textContent = "Humidity: " + humid + " %";
+        var forecastWind = document.createElement("p");
+        forecastWind.textContent = "Wind Speed: " + wind + " MPH";
+        forecastCard.append(forecastHum);
+        forecastCard.append(forecastWind);
+
+        forecastDiv.append(forecastCard);
+        console.log(forecastCard);
+      }
     });
 }
 
