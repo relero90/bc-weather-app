@@ -27,7 +27,6 @@ function renderSavedCities() {
       if (pulledCities[i] !== null) {
         var savedCity = document.createElement("button");
         savedCity.textContent = pulledCities[i];
-        // savedCity.classList.add(pulledCities[i]);
         savedCity.setAttribute("data-index", i);
         savedCity.setAttribute("id", "btn-2");
         savedCity.setAttribute("data-city", pulledCities[i]);
