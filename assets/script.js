@@ -23,13 +23,15 @@ function renderSavedCities() {
   var pulledCities = JSON.parse(localStorage.getItem("savedCitiesString"));
   if (pulledCities !== null) {
     for (var i = pulledCities.length - 1; i > pulledCities.length - 7; i--) {
-      var savedCity = document.createElement("button");
-      savedCity.textContent = pulledCities[i];
-      // savedCity.classList.add(pulledCities[i]);
-      savedCity.setAttribute("data-index", i);
-      savedCity.setAttribute("id", "btn-2");
-      savedCity.setAttribute("data-city", pulledCities[i]);
-      savedCitiesDiv.append(savedCity);
+      if (pulledCities[i] !== null) {
+        var savedCity = document.createElement("button");
+        savedCity.textContent = pulledCities[i];
+        // savedCity.classList.add(pulledCities[i]);
+        savedCity.setAttribute("data-index", i);
+        savedCity.setAttribute("id", "btn-2");
+        savedCity.setAttribute("data-city", pulledCities[i]);
+        savedCitiesDiv.append(savedCity);
+      }
     }
   }
 }
@@ -59,12 +61,14 @@ function saveNewCity() {
 }
 
 function getWeatherData() {
+  cityConcat = selectedCity.replace(/\s/g, "+");
   var currentUrl =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     cityConcat +
     "&units=imperial&appid=" +
     APIKey;
-
+  console.log(cityConcat);
+  console.log(currentUrl);
   fetch(currentUrl)
     .then(function (response) {
       return response.json();
@@ -153,11 +157,10 @@ searchBtn.on("click", function (event) {
 
 // When user clicks on any saved city button, get weather data for that city
 var savedCityBtns = document.querySelectorAll("#btn-2");
-console.log(savedCityBtns);
 for (var i = 0; i < savedCityBtns.length; i++) {
   savedCityBtns[i].addEventListener("click", function (event) {
     event.preventDefault();
     selectedCity = $(this).attr("data-city");
-    getWeatherData();
+    getWeatherData(selectedCity);
   });
 }
