@@ -11,18 +11,19 @@ var todaysTemp = $("#cur-temp");
 var todaysWind = $("#cur-wind");
 var todaysHumidity = $("#cur-humidity");
 var todaysUV = $("#cur-UV");
+var coordinates = {};
 var userCityInput = $("#city-input");
-// cities with spaces break the API call
+var latitude = "";
+var longitude = "";
 var selectedCity = "";
 var APIKey = "ad917aaaa96b4e27d19270a99cf00379";
-var temp = "";
+var cityConcat = "";
 
 // on page load, generate buttons for saved cities from stored searches in local storage
 function renderSavedCities() {
   var pulledCities = JSON.parse(localStorage.getItem("savedCitiesString"));
   if (pulledCities !== null) {
-    // For each item in the pulledCities array,
-    for (var i = 0; i < pulledCities.length; i++) {
+    for (var i = pulledCities.length - 1; i > pulledCities.length - 7; i--) {
       var savedCity = document.createElement("button");
       savedCity.textContent = pulledCities[i];
       // savedCity.classList.add(pulledCities[i]);
@@ -40,7 +41,7 @@ function saveNewCity() {
   var savedCities = JSON.parse(localStorage.getItem("savedCitiesString")) || [];
 
   selectedCity = userCityInput.val();
-  temp = selectedCity.replace(/\s/g, "+");
+  cityConcat = selectedCity.replace(/\s/g, "+");
   // console.log(selectedCity);
 
   console.log(selectedCity);
@@ -54,18 +55,20 @@ function saveNewCity() {
   savedCity.textContent = selectedCity;
   // savedCity.classList.add(selectedCity);
   savedCity.setAttribute("id", "btn-2");
-  savedCitiesDiv.append(savedCity);
+  savedCitiesDiv.prepend(savedCity);
+  savedCitiesDiv.children().eq(6).remove();
   // userCityInput.textContent = "";
 }
 
 function getWeatherData() {
-  var requestUrl =
+  var currentUrl =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
-    temp +
+    cityConcat +
     "&units=imperial&appid=" +
     APIKey;
+  console.log(currentUrl);
 
-  fetch(requestUrl)
+  fetch(currentUrl)
     .then(function (response) {
       return response.json();
     })
@@ -76,6 +79,35 @@ function getWeatherData() {
       todaysWind.text(data.wind.speed + " MPH");
       todaysHumidity.text(data.main.humidity + " %");
       // need UV index
+      var latitude = data.coord.lat.toFixed(0);
+      var longitude = data.coord.lon.toFixed(0);
+
+      coordinates = {
+        lat: latitude.toString(),
+        lon: longitude.toString(),
+      };
+      console.log(coordinates);
+      get5DayForecast(coordinates);
+    });
+}
+
+function get5DayForecast() {
+  console.log(coordinates);
+  var forecastURL =
+    "api.openweathermap.org/data/2.5/forecast?lat=" +
+    coordinates.lat +
+    "&lon=" +
+    coordinates.lon +
+    "&units=imperial&appid=" +
+    APIKey;
+  console.log(forecastURL);
+
+  fetch(forecastURL)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
     });
 }
 
@@ -93,8 +125,6 @@ console.log(savedCityBtns);
 for (var i = 0; i < savedCityBtns.length; i++) {
   savedCityBtns[i].addEventListener("click", function (event) {
     event.preventDefault();
-    var clickedBtn = event.target;
-    // selectedCity = clickedBtn.classList.value;
     selectedCity = $(this).attr("data-city");
     getWeatherData();
   });
