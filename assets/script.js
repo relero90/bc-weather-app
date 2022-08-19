@@ -23,14 +23,15 @@ var cityConcat = "";
 function renderSavedCities() {
   var pulledCities = JSON.parse(localStorage.getItem("savedCitiesString"));
   if (pulledCities !== null) {
-    for (var i = pulledCities.length - 1; i > pulledCities.length - 7; i--) {
+    // for (var i = pulledCities.length - 1; i > pulledCities.length - 7; i--) {
+    for (var i = 0; i < pulledCities.length; i++) {
       if (pulledCities[i] !== null) {
         var savedCity = document.createElement("button");
         savedCity.textContent = pulledCities[i];
         savedCity.setAttribute("data-index", i);
         savedCity.setAttribute("id", "btn-2");
         savedCity.setAttribute("data-city", pulledCities[i]);
-        savedCitiesDiv.append(savedCity);
+        savedCitiesDiv.prepend(savedCity);
       }
     }
   }
@@ -205,12 +206,12 @@ function get5DayForecast() {
     });
 }
 
-searchBtn.on("click", function (event) {
-  event.preventDefault();
+searchBtn.on("click", function () {
   if (userCityInput.val() !== null) {
     saveNewCity();
   }
   getWeatherData();
+  userCityInput.value = "";
 });
 
 // When user clicks on any saved city button, get weather data for that city
