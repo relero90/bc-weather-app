@@ -8,6 +8,7 @@ var currentDate = new Date().toLocaleDateString("en-us", {
   day: "numeric",
 });
 var todaysTemp = $("#cur-temp");
+var todaysIcon = $("#wicon");
 var todaysWind = $("#cur-wind");
 var todaysHumidity = $("#cur-humidity");
 var todaysUV = $("#cur-UV");
@@ -79,10 +80,15 @@ function getWeatherData() {
       currentCityHeader.text(
         data.name + " - " + currentDate + " - " + data.weather[0].main
       );
+      // render icon
+      var iconCode = data.weather[0].icon;
+      var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+      todaysIcon.attr("src", iconUrl);
+      console.log(todaysIcon);
+
       todaysTemp.text(data.main.temp + " °F");
       todaysWind.text(data.wind.speed + " MPH");
       todaysHumidity.text(data.main.humidity + " %");
-      // need UV index
       var latitude = data.coord.lat.toFixed(0);
       var longitude = data.coord.lon.toFixed(0);
 
@@ -104,7 +110,7 @@ function getUVIndex() {
     beforeSend: function (request) {
       request.setRequestHeader(
         "x-access-token",
-        "caac84741a9f139def111d72abe571ce"
+        "28d6ec7e91368103019573eb7cafdb26"
       );
     },
     // values for coordinates{} come from getWeatherData() function
@@ -157,7 +163,8 @@ function get5DayForecast() {
       // capture daily forecast data
       function pullDays(i) {
         var cardDate = data.list[i].dt_txt.slice(5, 10);
-        var icon = data.list[i].weather[0].icon;
+        var iconCode = data.list[i].weather[0].icon;
+        var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
         var description = data.list[i].weather[0].main;
         var temp = data.list[i].main.temp;
         var feelsLike = data.list[i].main.feels_like;
@@ -169,25 +176,31 @@ function get5DayForecast() {
 
         var forecastDate = document.createElement("h3");
         forecastDate.textContent = cardDate;
-        var forecastDescription = document.createElement("h4");
-        forecastDescription.textContent = description;
-        var forecastIcon = document.createElement("i");
-        forecastIcon.classList.add(icon);
-        forecastCard.append(forecastDate);
-        forecastCard.append(forecastIcon);
-        forecastCard.append(forecastDescription);
 
-        var forecastHi = document.createElement("p");
-        forecastHi.textContent = "Temp: " + temp + " °F";
-        var forecastLo = document.createElement("p");
-        forecastLo.textContent = "Feels Like: " + feelsLike + " °F";
-        forecastCard.append(forecastHi);
-        forecastCard.append(forecastLo);
+        var headerDiv = document.createElement("div");
+        headerDiv.classList.add("flexDiv");
+        // var forecastDescription = document.createElement("h4");
+        // forecastDescription.textContent = description;
+        var forecastIcon = document.createElement("img");
+        forecastIcon.src = iconUrl;
+
+        // headerDiv.append(forecastDescription);
+        headerDiv.append(forecastIcon);
+
+        forecastCard.append(forecastDate);
+        forecastCard.append(headerDiv);
+
+        var forecastTemp = document.createElement("p");
+        forecastTemp.textContent = "Temp: " + temp + " °F";
+        var forecastFL = document.createElement("p");
+        forecastFL.textContent = "Feels Like: " + feelsLike + " °F";
+        forecastCard.append(forecastTemp);
+        forecastCard.append(forecastFL);
 
         var forecastHum = document.createElement("p");
         forecastHum.textContent = "Humidity: " + humid + " %";
         var forecastWind = document.createElement("p");
-        forecastWind.textContent = "Wind Speed: " + wind + " MPH";
+        forecastWind.textContent = "Wind: " + wind + " MPH";
         forecastCard.append(forecastHum);
         forecastCard.append(forecastWind);
 

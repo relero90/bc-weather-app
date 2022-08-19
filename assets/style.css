@@ -115,6 +115,13 @@ form button:hover {
   padding: 12px;
   margin: 12px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#current-weather div {
+  display: flex;
 }
 
 #current-weather p {
@@ -179,6 +186,15 @@ form button:hover {
   padding: 6px;
   margin: 6px;
   width: 18%;
+}
+
+.flexDiv {
+  display: flex;
+  justify-content: space-around;
+}
+
+.forecast-cards p {
+  font-size: 1.3vw;
 }
 
 .forecast-cards h3 {
