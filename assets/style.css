@@ -1,3 +1,4 @@
+/* color scheme */
 :root {
   --dark: #082032;
   --medium: #2c394b;
@@ -46,6 +47,7 @@ h4 {
   font-size: 1.5vw;
 }
 
+/* user search aside with text input & dynamic buttons */
 aside {
   float: left;
   min-width: 20%;
@@ -70,11 +72,13 @@ input {
   border-radius: 6px;
 }
 
+/* Div for appended buttons in aside */
 #saved-cities {
   display: flex;
   flex-direction: column;
 }
 
+/* appended buttons */
 button {
   background-color: var(--headings);
   color: var(--dark);
@@ -86,16 +90,19 @@ button {
   border-radius: 6px;
 }
 
+/* search button */
 form button {
   background-color: var(--light);
   color: var(--dark);
 }
 
+/* search button on hover */
 form button:hover {
   background-color: var(--dark);
   color: var(--accent);
 }
 
+/* container for current & forecast combined */
 #weather-display {
   display: flex;
   flex-wrap: wrap;
@@ -103,10 +110,7 @@ form button:hover {
   margin: 6px;
 }
 
-#cityname-date {
-  color: var(--headings);
-}
-
+/* current weather container */
 #current-weather {
   border: solid 2px var(--dark);
   background-color: var(--accent);
@@ -120,6 +124,10 @@ form button:hover {
   align-items: flex-start;
 }
 
+#cityname-date {
+  color: var(--headings);
+}
+
 #current-weather div {
   display: flex;
 }
@@ -128,6 +136,7 @@ form button:hover {
   font-size: 1.5vw;
   margin-top: 5px;
 }
+
 /* UV Index Classes */
 .favorable {
   background-color: #558b2f;
@@ -159,6 +168,7 @@ form button:hover {
   padding: 6px;
   margin: 6px;
 }
+/* added for cases when API blocks call b/c of free daily limit */
 .unavailable {
   background-color: var(--dark);
   color: var(--accent);
@@ -166,18 +176,19 @@ form button:hover {
   padding: 6px;
   margin: 6px;
 }
-/* -------------------------- */
+
+/* Styles dynamically added values in current weather */
 .data {
   color: var(--dark);
   font-weight: bold;
 }
-
+/* Div for dynamically-created forecast cards */
 #five-day-forecast {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
 }
-
+/* dynamically-created w/ JS function pullDays()  */
 .forecast-cards {
   border: solid 2px var(--dark);
   background-color: var(--accent);
@@ -188,11 +199,6 @@ form button:hover {
   width: 18%;
 }
 
-.flexDiv {
-  display: flex;
-  justify-content: space-around;
-}
-
 .forecast-cards p {
   font-size: 1.3vw;
 }
@@ -200,4 +206,10 @@ form button:hover {
 .forecast-cards h3 {
   color: var(--headings);
   text-align: center;
+}
+
+/* dynamically-created - styles icon in forecast cards */
+.flexDiv {
+  display: flex;
+  justify-content: space-around;
 }
