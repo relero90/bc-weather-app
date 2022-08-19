@@ -97,6 +97,7 @@ function getWeatherData() {
 
 // broken function - ajax call now returning 403 Forbidden (worked before)
 function getUVIndex() {
+  // API limits pull requests to 50/day - when limit is reached, UV index will display "undefined"
   $.ajax({
     type: "GET",
     dataType: "json",
@@ -131,7 +132,8 @@ function getUVIndex() {
       }
     },
     error: function () {
-      console.log("uh oh...");
+      todaysUV.text("unavailable");
+      todaysUV.attr("class", "unavailable");
     },
   });
 }
