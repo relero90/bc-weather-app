@@ -104,7 +104,7 @@ form button:hover {
 }
 
 #cityname-date {
-  color: var(--dark);
+  color: var(--headings);
 }
 
 #current-weather p {
@@ -119,7 +119,8 @@ form button:hover {
 
 #current-weather {
   border: solid 2px var(--dark);
-  color: var(--accent);
+  background-color: var(--accent);
+  color: var(--dark);
   padding: 6px;
   margin: 6px;
   width: 100%;
@@ -143,4 +144,5 @@ form button:hover {
 
 .forecast-cards h3 {
   color: var(--headings);
+  text-align: center;
 }

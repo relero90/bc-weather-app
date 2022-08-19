@@ -87,8 +87,36 @@ function getWeatherData() {
         lat: latitude.toString(),
         lon: longitude.toString(),
       };
+      getUVIndex(coordinates);
       get5DayForecast(coordinates);
     });
+}
+
+"x-access-token", "caac84741a9f139def111d72abe571ce";
+
+function getUVIndex() {
+  $.ajax({
+    type: "GET",
+    dataType: "json",
+    beforeSend: function (request) {
+      request.setRequestHeader(
+        "x-access-token",
+        "caac84741a9f139def111d72abe571ce"
+      );
+    },
+    url:
+      "https://api.openuv.io/api/v1/uv?lat=" +
+      coordinates.lat +
+      "&lng=" +
+      coordinates.lon,
+    success: function (response) {
+      var UVIndex = response.result.uv.toFixed(2);
+      todaysUV.text(UVIndex);
+    },
+    error: function () {
+      console.log("error");
+    },
+  });
 }
 
 function get5DayForecast() {
@@ -110,7 +138,6 @@ function get5DayForecast() {
       // capture daily forecast data
       function pullDays(i) {
         var cardDate = data.list[i].dt_txt.slice(5, 10);
-        console.log(cardDate);
         var icon = data.list[i].weather[0].icon;
         var description = data.list[i].weather[0].description;
         var hiTemp = data.list[i].main.temp_max;
@@ -127,8 +154,8 @@ function get5DayForecast() {
         forecastDescription.textContent = description;
         var forecastIcon = document.createElement("i");
         forecastIcon.classList.add(icon);
-        forecastDate.append(forecastIcon);
         forecastCard.append(forecastDate);
+        forecastCard.append(forecastIcon);
         forecastCard.append(forecastDescription);
 
         var forecastHi = document.createElement("p");
