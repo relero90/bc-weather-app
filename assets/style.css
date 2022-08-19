@@ -107,23 +107,55 @@ form button:hover {
   color: var(--headings);
 }
 
-#current-weather p {
-  font-size: 1.5vw;
-  margin-top: 5px;
-}
-
-.data {
-  color: var(--dark);
-  font-weight: bold;
-}
-
 #current-weather {
   border: solid 2px var(--dark);
   background-color: var(--accent);
   color: var(--dark);
+  line-height: 1.8;
+  padding: 12px;
+  margin: 12px;
+  width: 100%;
+}
+
+#current-weather p {
+  font-size: 1.5vw;
+  margin-top: 5px;
+}
+/* UV Index Classes */
+.favorable {
+  background-color: #558b2f;
+  border-radius: 6px;
   padding: 6px;
   margin: 6px;
-  width: 100%;
+}
+.moderate {
+  background-color: #f9a825;
+  border-radius: 6px;
+  padding: 6px;
+  margin: 6px;
+}
+.high {
+  background-color: #ef6c00;
+  border-radius: 6px;
+  padding: 6px;
+  margin: 6px;
+}
+.veryhigh {
+  background-color: #b71c1c;
+  border-radius: 6px;
+  padding: 6px;
+  margin: 6px;
+}
+.severe {
+  background-color: #6a1b9a;
+  border-radius: 6px;
+  padding: 6px;
+  margin: 6px;
+}
+/* -------------------------- */
+.data {
+  color: var(--dark);
+  font-weight: bold;
 }
 
 #five-day-forecast {

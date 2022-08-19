@@ -92,8 +92,6 @@ function getWeatherData() {
     });
 }
 
-"x-access-token", "caac84741a9f139def111d72abe571ce";
-
 function getUVIndex() {
   $.ajax({
     type: "GET",
@@ -112,6 +110,17 @@ function getUVIndex() {
     success: function (response) {
       var UVIndex = response.result.uv.toFixed(2);
       todaysUV.text(UVIndex);
+      if (UVIndex <= 3) {
+        todaysUV.attr("class", "favorable");
+      } else if (UVIndex > 3 && UVIndex <= 6) {
+        todaysUV.attr("class", "moderate");
+      } else if (UVIndex > 6 && UVIndex <= 8) {
+        todaysUV.attr("class", "high");
+      } else if (UVIndex > 8 && UVIndex <= 11) {
+        todaysUV.attr("class", "veryhigh");
+      } else {
+        todaysUV.attr("class", "severe");
+      }
     },
     error: function () {
       console.log("error");
