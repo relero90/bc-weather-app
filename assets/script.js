@@ -60,6 +60,7 @@ function saveNewCity() {
   // userCityInput.textContent = "";
 }
 
+// pulls current weather data for selected city and then calls for getUVIndex() and get5DayForecast()
 function getWeatherData() {
   cityConcat = selectedCity.replace(/\s/g, "+");
   var currentUrl =
@@ -75,7 +76,9 @@ function getWeatherData() {
     })
     .then(function (data) {
       console.log(data);
-      currentCityHeader.text(data.name + " - " + currentDate);
+      currentCityHeader.text(
+        data.name + " - " + currentDate + " - " + data.weather[0].main
+      );
       todaysTemp.text(data.main.temp + " °F");
       todaysWind.text(data.wind.speed + " MPH");
       todaysHumidity.text(data.main.humidity + " %");
@@ -92,6 +95,7 @@ function getWeatherData() {
     });
 }
 
+// broken function - ajax call now returning 403 Forbidden (worked before)
 function getUVIndex() {
   $.ajax({
     type: "GET",
@@ -102,14 +106,18 @@ function getUVIndex() {
         "caac84741a9f139def111d72abe571ce"
       );
     },
+    // values for coordinates{} come from getWeatherData() function
     url:
       "https://api.openuv.io/api/v1/uv?lat=" +
       coordinates.lat +
       "&lng=" +
       coordinates.lon,
+
     success: function (response) {
+      console.log(response);
       var UVIndex = response.result.uv.toFixed(2);
       todaysUV.text(UVIndex);
+
       if (UVIndex <= 3) {
         todaysUV.attr("class", "favorable");
       } else if (UVIndex > 3 && UVIndex <= 6) {
@@ -123,7 +131,7 @@ function getUVIndex() {
       }
     },
     error: function () {
-      console.log("error");
+      console.log("uh oh...");
     },
   });
 }
@@ -148,9 +156,9 @@ function get5DayForecast() {
       function pullDays(i) {
         var cardDate = data.list[i].dt_txt.slice(5, 10);
         var icon = data.list[i].weather[0].icon;
-        var description = data.list[i].weather[0].description;
-        var hiTemp = data.list[i].main.temp_max;
-        var loTemp = data.list[i].main.temp_min;
+        var description = data.list[i].weather[0].main;
+        var temp = data.list[i].main.temp;
+        var feelsLike = data.list[i].main.feels_like;
         var humid = data.list[i].main.humidity;
         var wind = data.list[i].wind.speed;
 
@@ -168,9 +176,9 @@ function get5DayForecast() {
         forecastCard.append(forecastDescription);
 
         var forecastHi = document.createElement("p");
-        forecastHi.textContent = "High of: " + hiTemp + " °F";
+        forecastHi.textContent = "Temp: " + temp + " °F";
         var forecastLo = document.createElement("p");
-        forecastLo.textContent = "Low of: " + loTemp + " °F";
+        forecastLo.textContent = "Feels Like: " + feelsLike + " °F";
         forecastCard.append(forecastHi);
         forecastCard.append(forecastLo);
 
@@ -183,11 +191,11 @@ function get5DayForecast() {
 
         forecastDiv.append(forecastCard);
       }
-      pullDays(5);
-      pullDays(13);
-      pullDays(21);
-      pullDays(29);
-      pullDays(37);
+      pullDays(8);
+      pullDays(16);
+      pullDays(24);
+      pullDays(32);
+      pullDays(39);
     });
 }
 
