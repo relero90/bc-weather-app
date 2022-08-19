@@ -106,27 +106,30 @@ function get5DayForecast() {
     })
     .then(function (data) {
       console.log(data);
-      // capture daily forecast data
       forecastDiv.children().remove();
-      for (var i = 0; i < 5; i++) {
-        var cardDate = "Broken Fix Me";
+      // capture daily forecast data
+      function pullDays(i) {
+        var cardDate = data.list[i].dt_txt.slice(5, 10);
+        console.log(cardDate);
         var icon = data.list[i].weather[0].icon;
+        var description = data.list[i].weather[0].description;
         var hiTemp = data.list[i].main.temp_max;
         var loTemp = data.list[i].main.temp_min;
         var humid = data.list[i].main.humidity;
         var wind = data.list[i].wind.speed;
-        console.log(cardDate);
 
         var forecastCard = document.createElement("div");
         forecastCard.classList.add("forecast-cards");
 
         var forecastDate = document.createElement("h3");
         forecastDate.textContent = cardDate;
-
+        var forecastDescription = document.createElement("h4");
+        forecastDescription.textContent = description;
         var forecastIcon = document.createElement("i");
-        forecastIcon.textContent = icon;
+        forecastIcon.classList.add(icon);
         forecastDate.append(forecastIcon);
         forecastCard.append(forecastDate);
+        forecastCard.append(forecastDescription);
 
         var forecastHi = document.createElement("p");
         forecastHi.textContent = "High of: " + hiTemp + " °F";
@@ -143,8 +146,12 @@ function get5DayForecast() {
         forecastCard.append(forecastWind);
 
         forecastDiv.append(forecastCard);
-        console.log(forecastCard);
       }
+      pullDays(5);
+      pullDays(13);
+      pullDays(21);
+      pullDays(29);
+      pullDays(37);
     });
 }
 
