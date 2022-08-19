@@ -107,6 +107,7 @@ function get5DayForecast() {
     .then(function (data) {
       console.log(data);
       // capture daily forecast data
+      forecastDiv.children().remove();
       for (var i = 0; i < 5; i++) {
         var cardDate = "Broken Fix Me";
         var icon = data.list[i].weather[0].icon;
