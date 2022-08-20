@@ -15,7 +15,7 @@ var todaysUV = $("#cur-UV");
 var coordinates = {};
 var forecastDiv = $("#five-day-forecast");
 var userCityInput = $("#city-input");
-var selectedCity = "";
+var selectedCity;
 var APIKey = "ad917aaaa96b4e27d19270a99cf00379";
 var cityConcat = "";
 
@@ -32,6 +32,7 @@ function renderSavedCities() {
         savedCity.setAttribute("id", "btn-2");
         savedCity.setAttribute("data-city", pulledCities[i]);
         savedCitiesDiv.prepend(savedCity);
+        savedCitiesDiv.children().eq(6).remove();
       }
     }
   }
@@ -44,21 +45,20 @@ function saveNewCity() {
 
   selectedCity = userCityInput.val();
   cityConcat = selectedCity.replace(/\s/g, "+");
-  // console.log(selectedCity);
-
   console.log(selectedCity);
+
   savedCities.push(selectedCity);
+  console.log(savedCities);
 
   var storedStringInput = JSON.stringify(savedCities);
   localStorage.setItem("savedCitiesString", storedStringInput);
   // create button element, add text, class, and append below search
   var savedCity = document.createElement("button");
   savedCity.textContent = selectedCity;
-  // savedCity.classList.add(selectedCity);
   savedCity.setAttribute("id", "btn-2");
   savedCitiesDiv.prepend(savedCity);
+  // remove old button element to keep saved searches to 6
   savedCitiesDiv.children().eq(6).remove();
-  // userCityInput.textContent = "";
 }
 
 // pulls current weather and lat/lon data for selected city and then calls for getUVIndex() and get5DayForecast()
@@ -69,7 +69,7 @@ function getWeatherData() {
     cityConcat +
     "&units=imperial&appid=" +
     APIKey;
-  console.log(cityConcat);
+
   console.log(currentUrl);
   fetch(currentUrl)
     .then(function (response) {
@@ -206,11 +206,13 @@ function get5DayForecast() {
     });
 }
 
-searchBtn.on("click", function () {
+// When user clicks on the search button, if they have entered a city, get weather data for that city
+searchBtn.on("click", function (event) {
+  event.preventDefault();
   if (userCityInput.val() !== null) {
     saveNewCity();
   }
-  getWeatherData();
+  getWeatherData(selectedCity);
   userCityInput.value = "";
 });
 

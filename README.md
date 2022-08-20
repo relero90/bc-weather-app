@@ -8,6 +8,8 @@ The app stores user search history in localStorage and renders buttons to allow 
 
 ## Screenshots
 
-Need updating - UV Index displayed and functioning
+!["A screenshot of the finished application"](./assets/images/screenshot.png)
 
 ## Deployed Application Link
+
+https://relero90.github.io/bc-weather-app/
